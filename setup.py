@@ -8,6 +8,14 @@ from setuptools import setup, find_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
 
+tests_require = [
+		'pytest-runner',
+		'coverage',
+		'pytest',
+		'pytest-cov',
+		'pytest-spec',
+		'pytest-flakes',
+	]
 
 setup(
 		name = "colosseum.web",
@@ -33,29 +41,20 @@ setup(
 				'pytest-runner',
 			],
 
-		tests_require = [
-				'pytest-runner',
-				'coverage',
-				'pytest',
-				'pytest-cov',
-				'pytest-spec',
-				'pytest-flakes',
-			],
+		tests_require = tests_require,
 
 		install_requires = [
-				'WebCore',
+				'WebCore <3.0',
 				'web.dispatch.object',
 				'web.dispatch.resource',
 			],
 
 		extras_require = dict(
-				development = [
-						'pytest-runner',
-						'coverage',
-						'pytest',
-						'pytest-cov',
-						'pytest-spec',
-						'pytest-flakes',
+				development = tests_require + [
+						'ptpython',
+						'ipython',
+						'pudb',
+						'backlash',
 					],
 			),
 
