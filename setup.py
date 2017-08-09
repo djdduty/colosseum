@@ -47,6 +47,7 @@ setup(
 				'WebCore <3.0',
 				'web.dispatch.object',
 				'web.dispatch.resource',
+				'marrow.mongo',
 			],
 
 		extras_require = dict(
