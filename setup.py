@@ -62,5 +62,8 @@ setup(
 		zip_safe = True,
 
 		entry_points = {
-				}
+			'colosseum.web.document': [
+					'Account = colosseum.web.model:Account',
+				],
+			}
 	)

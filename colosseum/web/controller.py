@@ -3,16 +3,17 @@
 import random
 from bson import json_util as json
 
+from web.ext.acl import when
+
 from colosseum.web.model import Account
 
 
 class AccountController(object):
 	__dispatch__ = 'resource'
-
+	
 	def __init__(self, context):
 		self._ctx = context
-		Account.bind(context.db.default)
-
+	
 	def post(self, *arg, **kwarg):
 		user = Account(*arg, **kwarg)
 		result = user.insert_one()
@@ -26,6 +27,7 @@ class AccountController(object):
 		return json.dumps(result)
 
 
+@when(when.always)
 class Controller(object):
 	accounts = AccountController
 
