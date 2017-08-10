@@ -32,6 +32,7 @@ application = Application(
 				ColosseumExtension(),
 				DatabaseExtension(default=MongoDBConnection(db_uri)),
 				SessionExtension(default=MongoSession()),
+				SerializationExtension(),
  			] + debug_extensions,
 		logging={
 				'version': 1,

@@ -18,3 +18,5 @@ htmlcov/
 .DS_Store
 .ropeproject
 *.swp
+build/
+node_modules/

@@ -35,6 +35,7 @@ setup(
 
 		namespace_packages = [
 				'colosseum',
+				'colosseum.static',
 			],
 
 		setup_requires = [
@@ -45,11 +46,12 @@ setup(
 
 		install_requires = [
 				'WebCore <3.0',
-				'web.dispatch.object',
-				'web.dispatch.resource',
-				'marrow.mongo',
-				'web.db',
-				'tzlocal',
+				'web.dispatch.object <3.0',
+				'web.dispatch.resource <3.0',
+				'marrow.mongo <2.0',
+				'web.db <3.0',
+				'tzlocal <2.0',
+				'webassets <1.0',
 			],
 
 		extras_require = dict(
@@ -57,9 +59,9 @@ setup(
 						'ptpython',
 						'ipython',
 						'pudb',
-						'backlash',
-					],
-			),
+			 			'backlash',
+			 		],
+			), 
 
 		zip_safe = True,
 
