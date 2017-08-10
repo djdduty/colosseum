@@ -15,8 +15,10 @@ from colosseum.ext.assets import PackageResolver
 
 static_path=os.path.normpath(os.path.join(os.path.dirname(__file__), "../static/build"))
 my_env = Environment(
-		directory=static_path,
+ 		directory=static_path,
 		url="/public",
+		manifest="json:manifest.json",
+		auto_build=__debug__,
 	)
 
 my_env.resolver = PackageResolver()

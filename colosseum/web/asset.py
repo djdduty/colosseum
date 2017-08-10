@@ -16,7 +16,7 @@ colosseum_scripts = Bundle(
 		'colosseum.static:js/main.js',
 		filters=('rollup',es2015,),
 		depends='colosseum.static:js/**/*.js',
-		output='app.js'
+		output='app.%(version)s.js'
 	)
 
 
@@ -24,5 +24,5 @@ colosseum_styles = Bundle(
 		'colosseum.static:scss/application.scss',
 		filters=['scss', 'cssmin'],
 		depends='colosseum.static:scss/**/*.scss',
-		output='app.css',
+		output='app.%(version)s.css',
 	)

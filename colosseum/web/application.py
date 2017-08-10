@@ -31,7 +31,7 @@ application = Application(
 				AnnotationExtension(),
 				ColosseumExtension(),
 				DatabaseExtension(default=MongoDBConnection(db_uri)),
-				SessionExtension(default=MongoSession()),
+				SessionExtension(default=MongoSession(), secret='123456789012'),
 				SerializationExtension(),
  			] + debug_extensions,
 		logging={
