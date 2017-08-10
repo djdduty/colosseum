@@ -1,20 +1,22 @@
 # encoding: utf-8
 
-import random
+import random, os
 from bson import json_util as json
 
 from webassets import Environment
 
 from web.ext.acl import when
+from web.app.static import static
 
 from colosseum.web.model import Account
 from colosseum.web.asset import colosseum_scripts, colosseum_styles
 from colosseum.ext.assets import PackageResolver
 
 
+static_path=os.path.normpath(os.path.join(os.path.dirname(__file__), "../static/build"))
 my_env = Environment(
-		directory="../static/build",
-		url="/static",
+		directory=static_path,
+		url="/public",
 	)
 
 # my_env.resolver = PackageResolver()
@@ -44,6 +46,7 @@ class AccountController(object):
 @when(when.always)
 class Controller(object):
 	accounts = AccountController
+	public = static(static_path)
 
 	def __init__(self, context):
 		self._ctx = context
@@ -52,4 +55,4 @@ class Controller(object):
 		return "Hello, World!"
 
 	def asset(self):
-		return my_env['colosseum_scripts'].urls()
+		return "<script src='"+my_env['colosseum_scripts'].urls()[0]+"'></script>"
