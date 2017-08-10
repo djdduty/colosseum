@@ -60,6 +60,7 @@ setup(
 						'ipython',
 						'pudb',
 			 			'backlash',
+						'cssmin',
 			 		],
 			), 
 

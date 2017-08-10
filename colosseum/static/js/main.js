@@ -1,1 +1,3 @@
-alert("Hello, World!");
+import test from './test.js';
+
+test('hello, world!');

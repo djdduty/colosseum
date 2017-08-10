@@ -19,7 +19,7 @@ my_env = Environment(
 		url="/public",
 	)
 
-# my_env.resolver = PackageResolver()
+my_env.resolver = PackageResolver()
 
 my_env.register('colosseum_scripts', colosseum_scripts)
 my_env.register('colosseum_styles', colosseum_styles)
@@ -55,4 +55,4 @@ class Controller(object):
 		return "Hello, World!"
 
 	def asset(self):
-		return "<script src='"+my_env['colosseum_scripts'].urls()[0]+"'></script>"
+		return "<script src='"+my_env['colosseum_scripts'].urls()[0]+"'></script><link rel='stylesheet' type='text/css' href='"+my_env['colosseum_styles'].urls()[0]+"'></link>"

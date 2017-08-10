@@ -1,18 +1,28 @@
 # encoding: utf-8
 
-import os
+import pkg_resources
 
 from webassets import Bundle
+from webassets.filter import get_filter, register_filter
+
+from colosseum.ext.assets import Rollup
+
+
+register_filter(Rollup)
+es2015 = get_filter('babel', presets='es2015')
 
 
 colosseum_scripts = Bundle(
-		os.path.join(os.path.dirname(__file__), '../static/js/main.js'),
+		'colosseum.static:js/main.js',
+		filters=('rollup',es2015,),
+		depends='colosseum.static:js/**/*.js',
 		output='app.js'
 	)
 
+
 colosseum_styles = Bundle(
-		os.path.join(os.path.dirname(__file__), '../static/scss/application.scss'),
-		filters=['scss', 'autoprefixer', 'cssmin'],
-		depends=os.path.join(os.path.dirname(__file__), '../static/scss/**/*.scss'),
+		'colosseum.static:scss/application.scss',
+		filters=['scss', 'cssmin'],
+		depends='colosseum.static:scss/**/*.scss',
 		output='app.css',
 	)

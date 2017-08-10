@@ -1,19 +1,51 @@
 # encoding: utf-8
 
 import os
+import pkg_resources
 
 from webassets.env import Resolver
+from webassets.filter import ExternalTool, option
 
 
 log = __import__('logging').getLogger(__name__)
 
 class PackageResolver(Resolver):
 	def search_for_source(self, ctx, item):
-		parts = item.split(':', 1)
-		if len(parts) != 2:
-			raise ValueError('"%s" not valid; a module path with relative file path after : is required' % item)
+		pkg, _, fname = item.partition(':') # Get the module name, and the resource relative path
+		fpath = pkg_resources.resource_filename(pkg, fname) # Find the resource abs path
+		return fpath # self.consider_single_directory(fpath, fname) # HINT HINT
 
-		package, path = parts
-		m = __import__(package)
 
-		return self.consider_single_directory(os.path.dirname(m.__file__), path)
+class Rollup(ExternalTool):
+	"""Use Rollup to bundle assets.
+
+	Requires the Rollup executable to be available externally. You can
+	install it using `Node Package Manager <http://npmjs.org/>`_::
+	
+		$ npm install -g rollup
+	
+	Supported configuration options:
+	ROLLUP_BIN
+		The path to the Rollup binary. If not set, assumes ``rollup``
+		is in the system path.
+	ROLLUP_EXTRA_ARGS
+		A list of any additional command-line arguments.
+	"""
+	
+	name = 'rollup'
+	max_debug_level = None
+	options = {
+			'binary': 'ROLLUP_BIN',
+			'extra_args': option('ROLLUP_EXTRA_ARGS', type=list)
+		}
+	
+	def input(self, infile, outfile, **kwargs):
+		args = [self.binary or 'rollup']
+		
+		if self.extra_args:
+			args.extend(self.extra_args)
+		
+		args.append(kwargs['source_path'])
+		
+		self.subprocess(args, outfile, infile)
+
