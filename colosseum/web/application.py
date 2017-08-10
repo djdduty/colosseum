@@ -16,7 +16,7 @@ if __debug__:
 	from web.ext.analytics import AnalyticsExtension
 
 from .controller import Controller
-from .ext import ColosseumExtension
+from colosseum.ext import ColosseumExtension
 
 
 db_uri = 'mongodb://127.0.0.1/test'
