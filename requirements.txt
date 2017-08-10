@@ -1,0 +1,1 @@
+-e git+https://github.com/marrow/web.session.git@develop#egg=web.session

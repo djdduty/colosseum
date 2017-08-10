@@ -48,6 +48,8 @@ setup(
 				'web.dispatch.object',
 				'web.dispatch.resource',
 				'marrow.mongo',
+				'web.db',
+				'tzlocal',
 			],
 
 		extras_require = dict(
