@@ -52,6 +52,8 @@ setup(
 				'web.db <3.0',
 				'tzlocal <2.0',
 				'webassets <1.0',
+				'cinje <2.0',
+				'requests <3.0',
 			],
 
 		extras_require = dict(

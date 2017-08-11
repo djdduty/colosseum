@@ -1,7 +1,11 @@
 # encoding: utf-8
 
-import random, os
+import os
 from bson import json_util as json
+import cinje
+import requests
+
+from webob.exc import HTTPNotFound
 
 from webassets import Environment
 
@@ -10,8 +14,11 @@ from web.app.static import static
 
 from colosseum.web.model import Account
 from colosseum.web.asset import colosseum_scripts, colosseum_styles
+from colosseum.web.template import render_index, render_player_page
 from colosseum.ext.assets import PackageResolver
 
+
+log = __import__('logging').getLogger(__name__)
 
 static_path=os.path.normpath(os.path.join(os.path.dirname(__file__), "../static/build"))
 my_env = Environment(
@@ -54,7 +61,33 @@ class Controller(object):
 		self._ctx = context
 
 	def __call__(self):
-		return "Hello, World!"
+		return render_index(my_env)
 
 	def asset(self):
 		return "<script src='"+my_env['colosseum_scripts'].urls()[0]+"'></script><link rel='stylesheet' type='text/css' href='"+my_env['colosseum_styles'].urls()[0]+"'></link>"
+
+	def player(self, player_name=None, **kw):
+		if player_name is None:
+			try:
+				player_name = kw.pop('name')
+			except:
+				return HTTPNotFound("Player not found")
+		
+		payload = {'usernames[]': player_name}
+		log.debug("Fetching motiga profile", extra=dict(params=payload))
+		r = requests.get('https://stats.gogigantic.com/en/gigantic-careers/usersdata/', params=payload)
+		log.debug("Fetched motiga profile", extra=dict(url=r.url))
+		if self._ctx.request.is_xhr:
+			self._ctx.response.headers['content-type'] = r.headers['content-type']
+			return r.text
+		
+		data = r.json()
+		name = 'result'
+		try:
+			while name == 'result':
+				name, profile = data['data'].popitem()
+		except:
+			return HTTPNotFound("Player not found")
+		else:
+			return render_player_page(my_env, name, profile)
+
