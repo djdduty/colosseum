@@ -71,9 +71,9 @@ class Controller(object):
 			try:
 				player_name = kw.pop('name')
 			except:
-				return HTTPNotFound("Player not found")
+				return render_player_page(my_env, None, None)
 		
-		payload = {'usernames[]': player_name}
+		payload = {'usernames[]': player_name.lower()}
 		log.debug("Fetching motiga profile", extra=dict(params=payload))
 		r = requests.get('https://stats.gogigantic.com/en/gigantic-careers/usersdata/', params=payload)
 		log.debug("Fetched motiga profile", extra=dict(url=r.url))
@@ -87,7 +87,8 @@ class Controller(object):
 			while name == 'result':
 				name, profile = data['data'].popitem()
 		except:
-			return HTTPNotFound("Player not found")
-		else:
-			return render_player_page(my_env, name, profile)
+			profile = None
+			name = 'Player Not Found'
+		
+		return render_player_page(my_env, name, profile)
 

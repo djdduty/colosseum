@@ -76,10 +76,10 @@
 : def render_application assets
 	: using page title="Gigantic Colosseum", scripts=assets['colosseum_scripts'].urls(), styles=assets['colosseum_styles'].urls()
 		<nav class="header">
-			<li><a href="#">News</a></li>
-			<li><a href="#">Guides</a></li>
+			<li><a href="#">Official</a></li>
+			<li><a href="#">Heroes</a></li>
 			<li><a href="#">lfg</a></li>
-			<li><a href="#">Players</a></li>
+			<li><a href="/player">Players</a></li>
 		</nav>
 		<main class="content">
 			: yield
@@ -105,6 +105,7 @@
 				<input type='text' placeholder='Search for player...' name='name'>
 			</form>
 		</header>
+		: if profile is not None
 		<table class='player-table'>
 			<tr>
 				<th>Name</th>
@@ -121,5 +122,8 @@
 				<td>${profile['all']['total']['motiga_skill']*100}</td>
 			</tr>
 		</table>
+		: elif name is not None
+		<h1>${name}</h1>
+		: end
 	: end
 : end

@@ -18,7 +18,7 @@ args = sys.argv
 
 if __name__ == '__main__':
 	if len(sys.argv) == 1:
-		application.serve('wsgiref', host='0.0.0.0', port=8005)
+		application.serve('waitress', threads=15, host='0.0.0.0', port=8005)
 	else:
 		cmdenv = CommandLineEnvironment(my_env, log)
 		if sys.argv[1] == 'build':
