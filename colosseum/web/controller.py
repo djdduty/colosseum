@@ -7,31 +7,21 @@ import requests
 
 from webob.exc import HTTPNotFound
 
-from webassets import Environment
-
 from web.ext.acl import when
 from web.app.static import static
 
 from colosseum.web.model import Account
-from colosseum.web.asset import colosseum_scripts, colosseum_styles
+from colosseum.web.asset import colosseum_scripts, colosseum_styles, my_env
 from colosseum.web.template import render_index, render_player_page
-from colosseum.ext.assets import PackageResolver
+
+from colosseum.player.controller import Controller as PlayerController
 
 
 log = __import__('logging').getLogger(__name__)
 
+
 static_path=os.path.normpath(os.path.join(os.path.dirname(__file__), "../static/build"))
-my_env = Environment(
- 		directory=static_path,
-		url="/public",
-		manifest="json:manifest.json",
-		auto_build=__debug__,
-	)
 
-my_env.resolver = PackageResolver()
-
-my_env.register('colosseum_scripts', colosseum_scripts)
-my_env.register('colosseum_styles', colosseum_styles)
 
 class AccountController(object):
 	__dispatch__ = 'resource'
@@ -56,39 +46,40 @@ class AccountController(object):
 class Controller(object):
 	accounts = AccountController
 	public = static(static_path)
-
+	player = PlayerController
+	
 	def __init__(self, context):
 		self._ctx = context
-
+	
 	def __call__(self):
 		return render_index(my_env)
-
+	
 	def asset(self):
 		return "<script src='"+my_env['colosseum_scripts'].urls()[0]+"'></script><link rel='stylesheet' type='text/css' href='"+my_env['colosseum_styles'].urls()[0]+"'></link>"
-
-	def player(self, player_name=None, **kw):
-		if player_name is None:
-			try:
-				player_name = kw.pop('name')
-			except:
-				return render_player_page(my_env, None, None)
-		
-		payload = {'usernames[]': player_name.lower()}
-		log.debug("Fetching motiga profile", extra=dict(params=payload))
-		r = requests.get('https://stats.gogigantic.com/en/gigantic-careers/usersdata/', params=payload)
-		log.debug("Fetched motiga profile", extra=dict(url=r.url))
-		if self._ctx.request.is_xhr:
-			self._ctx.response.headers['content-type'] = r.headers['content-type']
-			return r.text
-		
-		data = r.json()
-		name = 'result'
-		try:
-			while name == 'result':
-				name, profile = data['data'].popitem()
-		except:
-			profile = None
-			name = 'Player Not Found'
-		
-		return render_player_page(my_env, name, profile)
+	
+	#def player(self, player_name=None, **kw):
+	#	if player_name is None:
+	#		try:
+	#			player_name = kw.pop('name')
+	#		except:
+	#			return render_player_page(my_env, None, None)
+	#	
+	#	payload = {'usernames[]': player_name.lower()}
+	#	log.debug("Fetching motiga profile", extra=dict(params=payload))
+	#	r = requests.get('https://stats.gogigantic.com/en/gigantic-careers/usersdata/', params=payload)
+	#	log.debug("Fetched motiga profile", extra=dict(url=r.url))
+	#	if self._ctx.request.is_xhr:
+	#		self._ctx.response.headers['content-type'] = r.headers['content-type']
+	#		return r.text
+	#	
+	#	data = r.json()
+	#	name = 'result'
+	#	try:
+	#		while name == 'result':
+	#			name, profile = data['data'].popitem()
+	#	except:
+	#		profile = None
+	#		name = 'Player Not Found'
+	#	
+	#	return render_player_page(my_env, name, profile)
 
