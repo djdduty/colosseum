@@ -1,3 +1,7 @@
+$animation-multiplier: 1;
+
+$animation-time: .25s * $animation-multiplier;
+
 .hero-list {
 	display: flex;
 	flex-direction: row;
@@ -28,8 +32,8 @@
 	
 	.animated--fade {
 		opacity: 0;
-		transform: scaleX(0.2) scaleY(0.2);
-		transition: opacity 0.25s linear, transform 0.25s linear;
+		transform: scale(.1);
+		transition: opacity $animation-time linear, transform $animation-time linear;
 		
 		&.visible {
 			transform: none;
