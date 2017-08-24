@@ -5,8 +5,6 @@ import requests
 
 from webob.exc import HTTPNotFound
 
-from colosseum.web.asset import my_env
-
 from .template import render_player_page
 
 
@@ -42,7 +40,7 @@ class PlayerResource(object):
 		self._name, self._data = resource.popitem()
 
 	def get(self, *arg, **kwarg):
-		return render_player_page(my_env, self._name, self._data)
+		return render_player_page(self._name, self._data)
 
 
 class Controller(object):

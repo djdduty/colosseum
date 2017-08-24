@@ -1,6 +1,6 @@
 @import 'reset';
 
-@import 'heroes';
+@import '../../hero/scss/heroes';
 
 $font-color: #fffcd5;
 $border-color: #3fb9be;
@@ -18,13 +18,14 @@ body {
 .header {
 	background: rgba(9,50,63,.95);
 	display: flex;
-	flex-basis: 48px;
+	flex-basis: 70px;
 	flex-shrink: 0;
 	flex-grow: 0;
 	flex-direction: row;
 	list-style: none;
 	justify-content: left;
 	align-items: center;
+	box-shadow: 0px 2px 4px rgba(0,0,0,0.18);
 
 	li {
 		transition: background 0.25s;
@@ -56,6 +57,7 @@ body {
 	flex-grow: 1;
 	width: 80%;
 	margin: auto;
+	margin-top: 10px;
 }
 
 header {

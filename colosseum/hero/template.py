@@ -1,14 +1,17 @@
 # encoding: cinje
 
-: from colosseum.web.template import render_application
+: import time
 
-
-: def render_hero_page assets, heroes
-	: using render_application assets=assets
+: def render_hero_page heroes, hero_translations
+	<template id='hero-template'>
+		<h3>Colosseum | Heroes</h3>
 		<ul class="hero-list">
+		: i = 0
 		: for hero in heroes.values()
-			<li><img src='http://via.placeholder.com/250x200'><span>${hero.id}</span></li>
+			: translation = hero_translations['INT'][hero.section_id]
+			<li class="animated--fade"><img src='https://via.placeholder.com/250x200?random=${i}'><span>${translation.display_name} (${hero.id})</span></li>
+			: i+=1
 		: end
 		</ul>
-	: end
+	</template>
 : end

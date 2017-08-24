@@ -71,7 +71,7 @@ setup(
 
 		entry_points = {
 			'colosseum.web.document': [
-					'Account = colosseum.web.model:Account',
+					'Account = colosseum.account.model:Account',
 				],
 			}
 	)

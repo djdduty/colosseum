@@ -1,10 +1,14 @@
 # encoding: utf-8
 
 import os
+
 import pkg_resources
 
+from webassets import Bundle
 from webassets.env import Resolver
-from webassets.filter import ExternalTool, option
+from webassets.filter import get_filter, register_filter, ExternalTool, option
+
+from webassets import Environment
 
 
 log = __import__('logging').getLogger(__name__)
@@ -49,3 +53,37 @@ class Rollup(ExternalTool):
 		
 		self.subprocess(args, outfile, infile)
 
+
+register_filter(Rollup)
+es2015 = get_filter('babel', presets='es2015')
+
+
+colosseum_scripts = Bundle(
+		'colosseum.web:js/main.js',
+		filters=('rollup',es2015,),
+		depends='colosseum:**/*.js',
+		output='app.%(version)s.js'
+	)
+
+
+colosseum_styles = Bundle(
+		'colosseum.web:scss/application.scss',
+		filters=['scss', 'cssmin'],
+		depends='colosseum:**/*.scss',
+		output='app.%(version)s.css',
+	)
+
+
+static_path=os.path.normpath(os.path.join(os.path.dirname(__file__), "../static/build"))
+
+my_env = Environment(
+ 		directory=static_path,
+		url="/public",
+		manifest="json:manifest.json",
+		auto_build=__debug__,
+	)
+
+my_env.resolver = PackageResolver()
+
+my_env.register('colosseum_scripts', colosseum_scripts)
+my_env.register('colosseum_styles', colosseum_styles)

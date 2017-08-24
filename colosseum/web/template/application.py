@@ -26,14 +26,14 @@
 		: end
 	: end
 		<!-- End of Metadata -->
-		
+
 		<title>${title}</title>
-	
+
 		<!-- Styles -->
 	: for href in styles
 		<link&{href=href, rel="stylesheet"}>
 	: end
-	
+
 		<!-- Scripts -->
 	: for href in scripts
 		<script&{src=href, type="text/javascript"}></script>
@@ -43,7 +43,7 @@
 
 : def default_footer scripts=[]
 		<footer></footer>
-	
+
 	: for script in scripts
 		<script&{src=script, type="text/javascript"}></script>
 	: end
@@ -65,7 +65,7 @@
 
 	<body&{attributes, role='application'}>
 		: yield
-		
+
 		: if footer
 			: use footer scripts=default_scripts_after + scripts
 		: end
@@ -73,26 +73,16 @@
 </html>
 : end
 
-: def render_application assets
+: def render_application assets, sub_response
 	: using page title="Gigantic Colosseum", scripts=assets['colosseum_scripts'].urls(), styles=assets['colosseum_styles'].urls()
 		<nav class="header">
-			<li><a href="#">Official</a></li>
+			<li><a href="/">Official</a></li>
 			<li><a href="/hero">Heroes</a></li>
-			<li><a href="#">lfg</a></li>
+			<li><a href="/lfg">lfg</a></li>
 			<li><a href="/player">Players</a></li>
 		</nav>
 		<main class="content">
-			: yield
+			#{sub_response}
 		</main>
-	: end
-: end
-
-: def render_index assets
-	: using render_application assets=assets
-		<form action='/accounts' method='post'>
-			<input type='text' name='name' placeholder='name'>
-			<input type='text' name='username' placeholder='user name'>
-			<input type='submit' value='submit'>
-		</form>
 	: end
 : end

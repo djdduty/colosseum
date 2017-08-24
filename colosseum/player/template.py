@@ -1,9 +1,8 @@
 # encoding: cinje
 
-: from colosseum.web.template import render_application
 
-: def render_player_page assets, name, profile
-	: using render_application assets=assets
+: def render_player_page name, profile
+	<template>
 		<header>
 			<h1>Player Profile</h1>
 			<form action='/player' method='get' class='flex--right'>
@@ -30,5 +29,5 @@
 		: elif name is not None
 		<h1>${name}</h1>
 		: end
-	: end
+	</template>
 : end

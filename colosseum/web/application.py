@@ -27,7 +27,7 @@ debug_extensions = [AnalyticsExtension(), DebugExtension()] if __debug__ else []
 application = Application(
 		Controller,
 		extensions=[
-				ACLExtension(default=when.never),
+				ACLExtension(default=when.always),
 				AnnotationExtension(),
 				ColosseumExtension(),
 				DatabaseExtension(default=MongoDBConnection(db_uri)),
@@ -52,6 +52,11 @@ application = Application(
 					},
 				'loggers': {
 						'colosseum': {
+								'level': 'DEBUG' if __debug__ else 'INFO',
+								'handlers': ['console', 'db'],
+								'propagate': False,
+							},
+						'gigantic': {
 								'level': 'DEBUG' if __debug__ else 'INFO',
 								'handlers': ['console', 'db'],
 								'propagate': False,

@@ -4,13 +4,13 @@ import cinje
 
 from .template import *
 
-from colosseum.web.asset import my_env
 
-
-from gigantic.parser import parse_heroes
-from gigantic.dao.model import Hero
+from gigantic.parser import parse_heroes, parse_translations
+from gigantic.dao.hero import Hero
+from gigantic.dao.translation import HeroTranslation
 
 parse_heroes('colosseum/static/build/RxGame/Config/Heroes')
+parse_translations('colosseum/static/build/RxGame/Localization')
 
 
 class Controller(object):
@@ -18,4 +18,4 @@ class Controller(object):
 		self._ctx = ctx
 	
 	def __call__(self):
-		return render_hero_page(my_env, Hero.__dataset__)
+		return render_hero_page(Hero.__dataset__, HeroTranslation.__dataset__)
