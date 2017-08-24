@@ -1,0 +1,39 @@
+$hero-count: 19;
+
+.hero-list {
+	display: flex;
+	flex-direction: row;
+	list-style: none;
+	flex-wrap: wrap;
+	flex-shrink: 1;
+	flex-grow: 1;
+	padding: 10px;
+	justify-content: space-around;
+	
+	li {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		padding: 10px;
+		animation: listShow 0.5s linear;
+		animation-fill-mode: both;
+		opacity: 0;
+		flex-grow: 0;
+		
+		@for $i from 1 through $hero-count {
+			&:nth-child(#{$i}) {
+				animation-delay: 500 + (42ms * $i)
+			}
+		}
+	}
+}
+
+@-webkit-keyframes listShow {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}

@@ -12,9 +12,11 @@ from web.app.static import static
 
 from colosseum.web.model import Account
 from colosseum.web.asset import colosseum_scripts, colosseum_styles, my_env
-from colosseum.web.template import render_index, render_player_page
+from colosseum.web.template import render_index
 
 from colosseum.player.controller import Controller as PlayerController
+
+from colosseum.hero.controller import Controller as HeroController
 
 
 log = __import__('logging').getLogger(__name__)
@@ -47,6 +49,7 @@ class Controller(object):
 	accounts = AccountController
 	public = static(static_path)
 	player = PlayerController
+	hero = HeroController
 	
 	def __init__(self, context):
 		self._ctx = context
@@ -82,4 +85,3 @@ class Controller(object):
 	#		name = 'Player Not Found'
 	#	
 	#	return render_player_page(my_env, name, profile)
-

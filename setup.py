@@ -54,6 +54,7 @@ setup(
 				'webassets <1.0',
 				'cinje <2.0',
 				'requests <3.0',
+				'gigantic.parser',
 			],
 
 		extras_require = dict(

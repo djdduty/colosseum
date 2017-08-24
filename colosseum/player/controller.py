@@ -5,8 +5,9 @@ import requests
 
 from webob.exc import HTTPNotFound
 
-from colosseum.web.template import render_player_page
 from colosseum.web.asset import my_env
+
+from .template import render_player_page
 
 
 log = __import__('logging').getLogger(__name__)
@@ -14,6 +15,7 @@ log = __import__('logging').getLogger(__name__)
 
 motiga_player = "https://stats.gogigantic.com/en/gigantic-careers/usersdata/" # usernames[]=
 motiga_search = "https://stats.gogigantic.com/en/gigantic-careers/playersearch/" # username=search page_num=0 page_size=25 platform=arc
+motiga_top = "https://stats.gogigantic.com/en/gigantic-careers/leaderboard-data/" # page_num=0 page_size=500 platform=arc
 
 def motiga_fetch(url, **kwargs):
 		log.debug("Fetching motiga data", extra=dict(url=url, params=kwargs))
