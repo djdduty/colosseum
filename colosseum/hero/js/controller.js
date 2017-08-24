@@ -1,7 +1,7 @@
 function BindEvents() {
     let showHeroes = () => {
         document.querySelectorAll('.hero-list li').forEach((ele, i) => {
-            setTimeout(() => ele.classList.add('visible'), 50*i);
+            setTimeout(() => ele.classList.add('visible'), 50+(50*i));
         });
         
         document.querySelector('.hero-list').classList.remove('loading');

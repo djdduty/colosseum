@@ -28,9 +28,11 @@
 	
 	.animated--fade {
 		opacity: 0;
-		transition: opacity 0.25s linear;
+		transform: scaleX(0.2) scaleY(0.2);
+		transition: opacity 0.25s linear, transform 0.25s linear;
 		
 		&.visible {
+			transform: none;
 			opacity: 1;
 		}
 	}
